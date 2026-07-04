@@ -1,4 +1,4 @@
-const CACHE_NAME = 'masarat-quran-v2';
+const CACHE_NAME = 'masarat-quran-v3';
 const APP_SHELL = [
   './',
   './index.html',
@@ -34,6 +34,15 @@ self.addEventListener('fetch', (event) => {
         .then((res) => {
           if (res && res.status === 200 && res.type === 'basic') {
             const clone = res.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(req, clone));
+          }
+          return res;
+        })
+        .catch(() => cached);
+      return cached || network;
+    })
+  );
+});
             caches.open(CACHE_NAME).then((cache) => cache.put(req, clone));
           }
           return res;
